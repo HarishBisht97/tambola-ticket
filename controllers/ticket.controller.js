@@ -24,18 +24,6 @@ const generateTicket = async (req, res, next) => {
 
 		const initialSet = lastSet?.setNumber + 1 || 1
 
-		const generateTambolaSet = async () => {
-			const tickets = {}
-			for (
-				let setNumber = initialSet;
-				setNumber <= initialSet + setQuantity;
-				setNumber++
-			) {
-				tickets[setNumber] = await generateTambolaTicket()
-			}
-			return tickets
-		}
-
 		const maintainNumberCount = (arr) => {
 			const zeroIndices = []
 
@@ -70,6 +58,18 @@ const generateTicket = async (req, res, next) => {
 			}
 
 			return ticket.map((row) => maintainNumberCount(row))
+		}
+
+		const generateTambolaSet = async () => {
+			const tickets = {}
+			for (
+				let setNumber = initialSet;
+				setNumber < initialSet + setQuantity;
+				setNumber++
+			) {
+				tickets[setNumber] = await generateTambolaTicket()
+			}
+			return tickets
 		}
 
 		const tickets = await generateTambolaSet()
