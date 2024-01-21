@@ -94,11 +94,11 @@ const generateTicket = async (req, res, next) => {
 
 const ticket = async (req, res, next) => {
 	try {
-		const page = req.params.page || 1
-		const pageSize = req.params.pageSize || 10
+		const page = req.query.page || 1
+		const pageSize = req.query.pageSize || 10
 		const tickets = await prisma.TambolaTicket.findMany({
-			skip: (page - 1) * pageSize,
-			take: pageSize,
+			skip: parseInt((page - 1) * pageSize),
+			take: parseInt(pageSize),
 			orderBy: { createdAt: 'desc' },
 		})
 		return res.status(200).json({ tickets })
